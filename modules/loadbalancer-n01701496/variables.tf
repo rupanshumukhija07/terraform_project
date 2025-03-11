@@ -10,7 +10,7 @@ variable "n01701496_rg_name" {
 
 variable "vm_network_interface_ids" {
   description = "Map of network interface IDs for VMs to be associated with the load balancer backend"
-  type        = map(string)
+  type        = list(string)
 }
 
 variable "tags" {

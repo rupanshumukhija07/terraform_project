@@ -14,7 +14,8 @@ resource "azurerm_public_ip" "linux_pip" {
   location            = var.location
   resource_group_name = var.n01701496_rg_name
   allocation_method   = "Static"
-  domain_name_label   = "${each.key}-n01701496"
+  sku                 = "Basic"
+  domain_name_label   = "${each.key}"
   tags                = var.tags
 }
 
@@ -26,7 +27,7 @@ resource "azurerm_network_interface" "linux_nic" {
   resource_group_name = var.n01701496_rg_name
 
   ip_configuration {
-    name                          = "internal-ip-${each.key}"
+    name                          = "internal"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.linux_pip[each.key].id
@@ -85,4 +86,12 @@ resource "azurerm_virtual_machine_extension" "network_watcher" {
   type_handler_version = "1.4"
 }
 
+resource "azurerm_virtual_machine_extension" "azure_monitor" {
+  for_each            = var.linux_name
+  name                = "azure-monitor-${each.key}"
+  virtual_machine_id  = azurerm_linux_virtual_machine.linux_vm[each.key].id
+  publisher            = "Microsoft.Azure.Monitor"
+  type                 = "AzureMonitorLinuxAgent"
+  type_handler_version = "1.9"
+}
 

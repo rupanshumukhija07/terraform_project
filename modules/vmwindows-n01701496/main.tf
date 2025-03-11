@@ -13,7 +13,7 @@ resource "azurerm_network_interface" "windows_nic" {
   location            = var.location
   resource_group_name = var.n01701496_rg_name
   ip_configuration {
-    name                          = "internal-ip-${format("%d", count.index + 1)}"
+    name                          = "internal"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = element(azurerm_public_ip.windows_pip[*].id, count.index + 1)
@@ -23,18 +23,19 @@ resource "azurerm_network_interface" "windows_nic" {
 
 resource "azurerm_public_ip" "windows_pip" {
   count               = var.vm_count
-  name                = "n01701496-w-vm-pip-${format("%1d", count.index + 1)}"
+  name                = "w-vm-pip-${format("%1d", count.index + 1)}"
   location            = var.location
   resource_group_name = var.n01701496_rg_name
   allocation_method   = "Static"
   sku = "Basic"
+  domain_name_label   = "n01701496-w-vm-${count.index + 1}"
 
   tags = var.tags
 }
 
 resource "azurerm_windows_virtual_machine" "windows_vm" {
   count               = var.vm_count
-  name                = "n01701496-c-vm${count.index + 1}"
+  name                = "n01701496-w-vm${count.index + 1}"
   resource_group_name = var.n01701496_rg_name
   location            = var.location
   availability_set_id = azurerm_availability_set.windows_avs.id

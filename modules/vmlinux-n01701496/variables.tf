@@ -30,12 +30,12 @@ variable "admin_username" {
 
 variable "public_key_path" {
   description = "Path to the public SSH key."
-  default     = "/home/n01701496/.ssh/id_rsa.pub"
+  default     = "~/.ssh/id_rsa.pub"
 }
 
 variable "private_key_path" {
   description = "Path to the public SSH key."
-  default     = "/home/n01701496/.ssh/id_rsa"
+  default     = "~/.ssh/id_rsa"
 }
 
 variable "os_disk" {

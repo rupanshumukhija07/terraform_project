@@ -8,7 +8,7 @@ output "vm_details" {
       public_ip     = azurerm_public_ip.linux_pip[key].ip_address
       domain_name   = azurerm_public_ip.linux_pip[key].domain_name_label
       nic_id        = azurerm_network_interface.linux_nic[key].id
-      
+      vm_id         = vm.id
     }
   }
 }

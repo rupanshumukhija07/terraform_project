@@ -32,23 +32,10 @@ resource "azurerm_lb_backend_address_pool" "n01701496_lb_backend" {
 
 # Attach the 3 Linux VMs to the backend pool
 resource "azurerm_network_interface_backend_address_pool_association" "linux_vms" {
-  for_each              = var.vm_network_interface_ids
-  network_interface_id  = each.value
-  ip_configuration_name = "internal-ip-${each.key}"
+  count              = length(var.vm_network_interface_ids)
+  network_interface_id  = element(var.vm_network_interface_ids, count.index)
+  ip_configuration_name = "internal"
   backend_address_pool_id = azurerm_lb_backend_address_pool.n01701496_lb_backend.id
-}
-
-
-# Health probe for the load balancer
-resource "azurerm_lb_probe" "n01701496_lb_probe" {
-  name                = "n01701496-lb-probe"
-  loadbalancer_id     = azurerm_lb.n01701496_lb.id
-  protocol            = "Http"
-  port                = 80
-  request_path        = "/health"
-
-  interval_in_seconds = 5
-  number_of_probes    = 2
 }
 
 

@@ -11,6 +11,11 @@ output "vm_ids" {
   value = [for vm in azurerm_windows_virtual_machine.windows_vm : vm.id]  # Extract VM IDs for Windows VMs
 }
 
+output "vm_nic_ids" {
+  value = [for nic in azurerm_network_interface.windows_nic : nic.id]
+  
+}
+
 output "public_ip_addresses" {
   value = [azurerm_public_ip.windows_pip[*].ip_address]
 }
