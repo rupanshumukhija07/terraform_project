@@ -99,11 +99,12 @@ resource "null_resource" "ansible_provision" {
   provisioner "local-exec" {
     command = <<EOT
       ANSIBLE_HOST_KEY_CHECKING=False \
-      ansible-playbook -i automation/inventory automation/playbook-n01701496.yaml
+      ansible-playbook -i /home/n01701496/automation/terraform/assignment1-n01701496/hosts \
+      /home/n01701496/automation/terraform/assignment1-n01701496/playbook-n01701496.yaml
     EOT
   }
 
-  depends_on = [
+  depends_on = [  
     azurerm_linux_virtual_machine.linux_vm
   ]
 }

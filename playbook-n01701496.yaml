@@ -1,0 +1,10 @@
+---
+- name: Apply all automation roles
+  hosts: linux
+  become: yes
+
+  roles:
+    - { role: /home/n01701496/automation/terraform/assignment1-n01701496/roles/profile-n01701496 }
+    - { role: /home/n01701496/automation/terraform/assignment1-n01701496/roles/user-n01701496 }
+    - { role: /home/n01701496/automation/terraform/assignment1-n01701496/roles/datadisk-n01701496 }
+    - { role: /home/n01701496/automation/terraform/assignment1-n01701496/roles/webserver-n01701496 }

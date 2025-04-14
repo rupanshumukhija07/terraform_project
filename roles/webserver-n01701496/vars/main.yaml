@@ -1,5 +1,5 @@
 ---
-web_package: httpd
+web_package: apache2
 web_file_src: index.html
 web_file_dest: /var/www/html/index.html
-web_service: httpd
+web_service: apache2

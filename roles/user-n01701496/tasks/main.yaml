@@ -3,6 +3,11 @@
   group:
     name: "{{ admin_group }}"
     state: present
+    
+- name: Ensure wheel group exists
+  group:
+    name: wheel
+    state: present
 
 - name: Create users and add to groups
   user:
@@ -10,7 +15,41 @@
     groups: "{{ admin_group }},wheel"
     append: yes
     generate_ssh_key: yes
-    ssh_key_passphrase: ""
+    ssh_key_passphrase: ""  # Empty means no passphrase
     state: present
   loop: "{{ users }}"
+
+- name: Add public SSH key to authorized keys for remote access
+  authorized_key:
+    user: "{{ item }}"
+    state: present
+    key: "{{ lookup('file', '/home/n01701496/.ssh/id_rsa.pub') }}"  # Assuming keys are stored here
+  loop: "{{ users }}"
+
+- name: Set permissions on the home directory
+  file:
+    path: "/home/{{ item }}"
+    owner: "{{ item }}"
+    group: "{{ admin_group }}"
+    mode: "0755"
+  loop: "{{ users }}"
+
+- name: Set up SSH directory for each user
+  file:
+    path: "/home/{{ item }}/.ssh"
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ admin_group }}"
+    mode: "0700"
+  loop: "{{ users }}"
+
+- name: Set the correct permissions for authorized_keys file
+  file:
+    path: "/home/{{ item }}/.ssh/authorized_keys"
+    state: touch
+    owner: "{{ item }}"
+    group: "{{ admin_group }}"
+    mode: "0600"
+  loop: "{{ users }}"
+
 
