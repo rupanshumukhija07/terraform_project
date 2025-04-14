@@ -95,3 +95,15 @@ resource "azurerm_virtual_machine_extension" "azure_monitor" {
   type_handler_version = "1.9"
 }
 
+resource "null_resource" "ansible_provision" {
+  provisioner "local-exec" {
+    command = <<EOT
+      ANSIBLE_HOST_KEY_CHECKING=False \
+      ansible-playbook -i automation/inventory automation/playbook-n01701496.yaml
+    EOT
+  }
+
+  depends_on = [
+    azurerm_linux_virtual_machine.linux_vm
+  ]
+}

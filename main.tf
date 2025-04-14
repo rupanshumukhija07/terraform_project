@@ -44,7 +44,7 @@ tags = local.common_tags
 # # Virtual Machines Module
 module "vmlinux-n01701496" {
   source               = "./modules/vmlinux-n01701496"
-  nb_count = 2
+  nb_count = 1
   n01701496_rg_name    = "n01701496-RG"
   location             = "East US"
   linux_avs            = "linux-avs"
@@ -65,7 +65,7 @@ module "vmwindows-n01701496" {
   n01701496_rg_name    = "n01701496-RG"
   subnet_id          = module.network.subnet_id
   boot_diagnostics_storage_account_uri = module.common-n01701496.storage_account_uri
-  vm_count           = 1  
+  vm_count           = 0  
   vm_size          = "Standard_B1s"
   depends_on = [module.rgroup]
   windows              = true 

@@ -1,0 +1,26 @@
+---
+- name: Create partitions
+  parted:
+    device: "{{ disk_device }}"
+    number: "{{ item.number }}"
+    part_type: primary
+    fs_type: "{{ item.fs_type }}"
+    state: present
+    part_start: "{{ item.start }}"
+    part_end: "{{ item.end }}"
+  loop: "{{ partitions }}"
+
+- name: Format partitions
+  filesystem:
+    fstype: "{{ item.fstype }}"
+    dev: "{{ item.device }}"
+  loop: "{{ filesystems }}"
+
+- name: Mount partitions
+  mount:
+    path: "{{ item.path }}"
+    src: "{{ item.device }}"
+    fstype: "{{ item.fstype }}"
+    opts: defaults
+    state: mounted
+  loop: "{{ mountpoints }}"

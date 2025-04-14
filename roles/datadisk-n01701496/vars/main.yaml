@@ -1,0 +1,13 @@
+---
+disk_device: /dev/sdc
+partitions:
+  - { number: 1, fs_type: xfs, start: "0%", end: "40%" }
+  - { number: 2, fs_type: ext4, start: "40%", end: "90%" }
+
+filesystems:
+  - { fstype: xfs, device: "/dev/sdc1" }
+  - { fstype: ext4, device: "/dev/sdc2" }
+
+mountpoints:
+  - { path: /part1, device: "/dev/sdc1", fstype: xfs }
+  - { path: /part2, device: "/dev/sdc2", fstype: ext4 }

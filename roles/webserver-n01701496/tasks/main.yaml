@@ -1,0 +1,17 @@
+---
+- name: Install Apache
+  package:
+    name: "{{ web_package }}"
+    state: present
+
+- name: Copy HTML file
+  copy:
+    src: "{{ web_file_src }}"
+    dest: "{{ web_file_dest }}"
+    mode: '0444'
+
+- name: Ensure Apache is started and enabled
+  service:
+    name: "{{ web_service }}"
+    state: started
+    enabled: yes

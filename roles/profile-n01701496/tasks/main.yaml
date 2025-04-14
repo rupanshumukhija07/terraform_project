@@ -1,0 +1,8 @@
+---
+- name: Add TMOUT configuration to /etc/profile
+  blockinfile:
+    path: /etc/profile
+    block: |
+      # Test block added by Ansible: {{ username }}
+      export TMOUT={{ tmout }}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - TMOUT"

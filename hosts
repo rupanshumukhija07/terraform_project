@@ -1,0 +1,24 @@
+[linux]
+ansible-c-vm1 ansible_host=n01701496-c-vm1-pip.eastus.cloudapp.azure.com
+
+[windows]
+n01701496-w-vm1.eastus.cloudapp.azure.com
+
+[localhost]
+localhost ansible_become=true ansible_become_method=sudo ansible_become_user=root
+localhost ansible_connection=local
+
+
+[os:children]
+linux
+windows
+
+[windows:vars]
+ansible_user = winadm
+ansible_password = "admin"
+ansible_connection = winrm
+ansible_port = 5985
+ansible_winrm_transport = ntlm
+ansible_winrm_server_cert_validation = ignore
+
+n01701496@Brahmastra:~/automation/ansible/lab10$
