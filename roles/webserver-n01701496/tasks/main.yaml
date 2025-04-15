@@ -6,6 +6,7 @@
 
 - name: Copy HTML file
   copy:
+    content: "Hostname: {{ ansible_facts['nodename'] }}"
     src: "{{ web_file_src }}"
     dest: "{{ web_file_dest }}"
     mode: '0444'
