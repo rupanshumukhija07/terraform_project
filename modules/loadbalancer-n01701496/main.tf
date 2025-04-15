@@ -5,7 +5,7 @@ resource "azurerm_public_ip" "lb_public_ip" {
   resource_group_name = var.n01701496_rg_name
   allocation_method   = "Static"
   sku                 = "Basic"
-
+  domain_name_label   = var.dns_label
   tags = var.tags
 }
 
@@ -41,7 +41,6 @@ resource "azurerm_network_interface_backend_address_pool_association" "linux_vms
 # Create a health probe on port 80
 resource "azurerm_lb_probe" "http_probe" {
   name                = "http-probe"
-  resource_group_name = var.n01701496_rg_name
   loadbalancer_id     = azurerm_lb.n01701496_lb.id
   protocol            = "Http"
   port                = 80
@@ -53,12 +52,11 @@ resource "azurerm_lb_probe" "http_probe" {
 # Create a load balancer rule for port 80
 resource "azurerm_lb_rule" "http_rule" {
   name                           = "http-rule"
-  resource_group_name            = var.n01701496_rg_name
   loadbalancer_id                = azurerm_lb.n01701496_lb.id
   protocol                       = "Tcp"
   frontend_port                  = 80
   backend_port                   = 80
   frontend_ip_configuration_name = "n01701496_frontend_ip_configuration"
-  backend_address_pool_id        = azurerm_lb_backend_address_pool.n01701496_lb_backend.id
+  backend_address_pool_ids        = [azurerm_lb_backend_address_pool.n01701496_lb_backend.id]
   probe_id                       = azurerm_lb_probe.http_probe.id
 }
